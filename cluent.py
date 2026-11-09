@@ -1,8 +1,11 @@
 class Client:
     def __init__(self, name, balance):
-        # Зберігає ім'я та баланс, нічого не повертає
-        pass
+        self.name = name
+        self.balance = balance
 
     def charge(self, amount):
-        # Списує гроші, повертає True або False
-        pass
+        if amount > self.balance or amount < 0:
+            return False
+
+        self.balance -= amount
+        return True
