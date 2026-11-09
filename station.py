@@ -6,3 +6,7 @@ class Station:
   def add_bike(self, bike: Bike):
     
     pass
+
+def remove_bike(self, is_electric):
+
+  pass
