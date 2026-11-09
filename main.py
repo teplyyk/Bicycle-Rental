@@ -1,26 +1,40 @@
-from bike import Bike
+from bikes import Bike
+from cluent import Client
 from station import Station
-from client import Client
-from actions import rent_bike, return_bike
+from actions import rent_bike, return_bike, admin_report
 
 
 def main():
-    # Створюємо станції, велосипеди й клієнтів
+    total_revenue = 0
+
+
     center = Station("Центр")
-    station_2 = Station("Вокзал")
+    park = Station("Парк")
 
-
-    center.add_bike(Bike("E-01", True)) #true = електро
+    center.add_bike(Bike("E-01", True))
     center.add_bike(Bike("B-01", False))
+    park.add_bike(Bike("E-02", True))
 
     roma = Client("Roma", 4563)
     danya = Client("Danya", 45)
 
+    bike = center.remove_bike(is_electric=True)
 
-    print("Звіт адміністратора")
-    print(f"Станція {center.name_station}: {len(center.bikes)} велосипед(и)")
-    print(f"Станція {station_2.name_station}: {len(station_2.bikes)} велосипед(и)")
-    # print(f"Виручка: {total_revenue}")
+    if bike is None:
+        print("електрика фолс")
+    else:
+        cost = 10 * bike.get_bike_cost()
+
+        if roma.charge(cost):
+            park.add_bike(bike)
+            total_revenue += cost
+            print('все добре')
+
+        else:
+            center.add_bike(bike)
+            print("Не вдалося оплатити поїздку: недостатньо коштів.")
+
+    print('звіт',total_revenue)
 
 
 if __name__ == "__main__":
